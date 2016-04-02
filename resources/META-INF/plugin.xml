@@ -1,0 +1,38 @@
+<idea-plugin version="2">
+  <id>net.nonylene.gradle_external_plugin</id>
+  <name>Gradle External Build Plugin</name>
+  <version>1.0</version>
+  <vendor email="cookie.speaker@gmail.com" url="http://nonylene.net">nonylene</vendor>
+
+  <description><![CDATA[
+      Run gralde android build on external tool<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <depends>org.jetbrains.android</depends>
+  <depends>org.jetbrains.plugins.gradle</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+    <stepsBeforeRunProvider implementation="net.nonylene.gradle.external.ExternalBeforeRunTaskProvider" />
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
