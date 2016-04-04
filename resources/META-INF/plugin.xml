@@ -29,6 +29,8 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <stepsBeforeRunProvider implementation="net.nonylene.gradle.external.ExternalBeforeRunTaskProvider" />
+    <applicationService serviceImplementation="net.nonylene.gradle.external.ExternalPreferenceProvider" serviceInterface="net.nonylene.gradle.external.ExternalPreferenceProvider"/>
+    <applicationConfigurable groupId="build" instance="net.nonylene.gradle.external.ExternalPreference" />
   </extensions>
 
   <actions>

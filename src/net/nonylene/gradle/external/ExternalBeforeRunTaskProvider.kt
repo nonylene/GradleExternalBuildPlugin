@@ -17,9 +17,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.Ref
 import com.intellij.util.concurrency.Semaphore
+import com.android.tools.idea.gradle.run.MakeBeforeRunTaskProvider
 
 import javax.swing.*
 
+/**
+ * @see MakeBeforeRunTaskProvider
+ */
 class ExternalBeforeRunTaskProvider(private val myProject: Project) : BeforeRunTaskProvider<ExternalBeforeRunTask>() {
 
     override fun getId(): Key<ExternalBeforeRunTask> {
@@ -74,7 +78,6 @@ class ExternalBeforeRunTaskProvider(private val myProject: Project) : BeforeRunT
                 CompilerWorkspaceConfiguration.getInstance(myProject).PARALLEL_COMPILATION) {
             commandLineArgs.add(GradleBuilds.PARALLEL_BUILD_OPTION);
         }
-
 
         val application = ApplicationManager.getApplication()
         if (application != null && application.isUnitTestMode) {

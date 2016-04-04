@@ -3,6 +3,9 @@ package net.nonylene.gradle.external
 import com.google.common.escape.Escapers
 import com.intellij.tools.Tool
 
+/**
+ * @see Tool
+ */
 class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArguments : List<String>) : Tool() {
 
     val SHELL_ESCAPE = Escapers.builder().addEscape('\'', "'\"'\"'").build()
