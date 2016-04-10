@@ -1,12 +1,11 @@
 package net.nonylene.gradle.external
 
 import com.intellij.openapi.options.SearchableConfigurable
-import com.intellij.openapi.project.Project
 import javax.swing.JComponent
 
 class ExternalPreference : SearchableConfigurable {
 
-    var preferencePanel: ExternalPreferencePanel? = ExternalPreferencePanel()
+    private var preferencePanel: ExternalPreferencePanel? = null
 
     override fun getHelpTopic(): String? {
         return null
@@ -41,7 +40,8 @@ class ExternalPreference : SearchableConfigurable {
     }
 
     override fun createComponent(): JComponent? {
-        return preferencePanel?.createPanel()
+        preferencePanel = ExternalPreferencePanel()
+        return preferencePanel!!.createPanel()
     }
 }
 
