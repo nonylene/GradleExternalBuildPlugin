@@ -6,7 +6,6 @@
 
   <description><![CDATA[
       Run gralde android build on external tool<br>
-      <em>most HTML tags may be used</em>
     ]]></description>
 
   <change-notes><![CDATA[
