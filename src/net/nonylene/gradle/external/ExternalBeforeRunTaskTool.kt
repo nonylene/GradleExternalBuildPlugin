@@ -1,6 +1,7 @@
 package net.nonylene.gradle.external
 
 import com.google.common.escape.Escapers
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.tools.Tool
 
 /**
@@ -8,14 +9,17 @@ import com.intellij.tools.Tool
  */
 class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArguments : List<String>) : Tool() {
 
+    private val provider = ServiceManager.getService(ExternalPreferenceProvider::class.java)
+
     val SHELL_ESCAPE = Escapers.builder().addEscape('\'', "'\"'\"'").build()
 
     init {
         isEnabled = true
         setFilesSynchronizedAfterRun(true)
-        program = "ls"
-        parameters = "\$GRADLE_TASKS\$ \$GRADLE_ARGS\$"
-        workingDirectory = ""
+        val state = provider.state!!
+        program = state.program
+        parameters = state.parameters
+        workingDirectory = state.workingDirectory
 
         val tasks = tasks.fold(StringBuilder()) { builder, text ->
             builder.append(shellEscapedString(text))
