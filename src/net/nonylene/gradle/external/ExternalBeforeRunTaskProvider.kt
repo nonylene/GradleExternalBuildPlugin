@@ -1,9 +1,6 @@
 package net.nonylene.gradle.external
 
-import com.android.tools.idea.gradle.compiler.AndroidGradleBuildConfiguration
 import com.android.tools.idea.gradle.run.GradleInvokerOptions
-import com.android.tools.idea.gradle.util.GradleBuilds
-import com.intellij.compiler.CompilerWorkspaceConfiguration
 import com.intellij.execution.BeforeRunTask
 import com.intellij.execution.BeforeRunTaskProvider
 import com.intellij.execution.configurations.RunConfiguration
@@ -65,27 +62,7 @@ class ExternalBeforeRunTaskProvider(private val myProject: Project) : BeforeRunT
     override fun executeTask(context: DataContext, configuration: RunConfiguration,
                              env: ExecutionEnvironment, task: ExternalBeforeRunTask): Boolean {
         val options = GradleInvokerOptions.create(myProject, context, configuration, env, null)
-
-        val commandLineArgs = options.commandLineArguments
-
-        val buildConfiguration = AndroidGradleBuildConfiguration.getInstance(myProject)
-
-        if (buildConfiguration.USE_CONFIGURATION_ON_DEMAND && !commandLineArgs.contains(GradleBuilds.CONFIGURE_ON_DEMAND_OPTION)) {
-            commandLineArgs.add(GradleBuilds.CONFIGURE_ON_DEMAND_OPTION);
-        }
-
-        if (!commandLineArgs.contains(GradleBuilds.PARALLEL_BUILD_OPTION) &&
-                CompilerWorkspaceConfiguration.getInstance(myProject).PARALLEL_COMPILATION) {
-            commandLineArgs.add(GradleBuilds.PARALLEL_BUILD_OPTION);
-        }
-
-        val application = ApplicationManager.getApplication()
-        if (application != null && application.isUnitTestMode) {
-            commandLineArgs.add("--info")
-            commandLineArgs.add("--recompile-scripts")
-        }
-
-        val tool = ExternalBeforeRunTaskTool(options.tasks, commandLineArgs);
+        val tool = ExternalBeforeRunTaskTool(options.tasks, options.commandLineArguments);
 
         val targetDone = Semaphore()
         val result = Ref(false)
