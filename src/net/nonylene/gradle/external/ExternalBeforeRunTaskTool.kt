@@ -1,6 +1,5 @@
 package net.nonylene.gradle.external
 
-import com.google.common.escape.Escapers
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.tools.Tool
 
@@ -11,8 +10,6 @@ class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArgument
 
     private val provider = ServiceManager.getService(ExternalPreferenceProvider::class.java)
 
-    val SHELL_ESCAPE = Escapers.builder().addEscape('\'', "'\"'\"'").build()
-
     init {
         isEnabled = true
         setFilesSynchronizedAfterRun(true)
@@ -22,18 +19,18 @@ class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArgument
         workingDirectory = state.workingDirectory
 
         val tasks = tasks.fold(StringBuilder()) { builder, text ->
-            builder.append(shellEscapedString(text))
-            builder.append(" ")
+            builder.append(text)
+                    .append(',')
         }.toString()
 
         val args = commandLineArguments.fold(StringBuilder()) { builder, text ->
-            builder.append(shellEscapedString(text))
-            builder.append(" ")
+            builder.append(text)
+                    .append(',')
         }.toString()
 
         parameters = parameters
-                .replace("\$GRADLE_TASKS\$", shellEscapedString(tasks))
-                .replace("\$GRADLE_ARGS\$", shellEscapedString(args))
+                .replace("\$GRADLE_TASKS\$", tasks)
+                .replace("\$GRADLE_ARGS\$", args)
 
         with(javaClass.superclass.getDeclaredMethod("setName", String::class.java)) {
             isAccessible = true
@@ -43,9 +40,5 @@ class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArgument
             isAccessible = true
             invoke(this@ExternalBeforeRunTaskTool, true)
         }
-    }
-
-    private fun shellEscapedString(text: String): String {
-        return "'" + SHELL_ESCAPE.escape(text) + "'"
     }
 }
