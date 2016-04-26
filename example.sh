@@ -44,6 +44,10 @@ ssh -fNM -S "$ctl_path" "$server"
 echo "Syncing source files..."
 ssh -S "$ctl_path" "$server" mkdir -p "~/$project_relative"
 rsync -Cavz --delete --filter=":- .gitignore" -e "$rsync_ssh" $project_dir/ "$server":$project_relative/
+# also sync build directory
+mkdir -p $project_dir/build/ $module_dir/build/
+rsync -CavzS --delete -e "$rsync_ssh" $project_dir/build/ "$server":$project_relative/build/
+rsync -CavzS --delete -e "$rsync_ssh" $module_dir/build/ "$server":$module_relative/build/
 
 echo "Starting Build..."
 ssh -S $ctl_path "$server" "
