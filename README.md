@@ -56,5 +56,5 @@ See `example.sh`.
 
 # License
 
-See `LICENSE.md`.
+See `LICENCE.md`.
 
