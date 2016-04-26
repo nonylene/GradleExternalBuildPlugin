@@ -19,12 +19,12 @@ class ExternalBeforeRunTaskTool(val tasks: List<String>, val commandLineArgument
         workingDirectory = state.workingDirectory
 
         val tasks = tasks.fold(StringBuilder()) { builder, text ->
-            builder.append(text)
+            builder.append(text.replace(",", "\\,"))
                     .append(',')
         }.toString()
 
         val args = commandLineArguments.fold(StringBuilder()) { builder, text ->
-            builder.append(text)
+            builder.append(text.replace(",", "\\,"))
                     .append(',')
         }.toString()
 
