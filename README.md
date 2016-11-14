@@ -4,9 +4,15 @@ Android Studio Plugin for gradle building on external tools
 
 This plugin can run tools (e.g. shell, python, perl, etc) with Gradle arguments and tasks, instead of the default gradle build before run.
 
+# No maintained
+
+This plugin is not working on AS2.2. 
+
+I am not planning to fix this for now.
+
 ## Requirements
 
-Android Studio >= 1.5
+Android Studio >= 1.5, <= 2.1
 
 ## Why use this plugin?
 
